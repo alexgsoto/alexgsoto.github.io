@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeMJysrAAAAALUERbYNLU2d0Z3afiWPKH_bJDcb"></script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
@@ -330,8 +331,12 @@
                 <input type="email" id="email" name="email" required>
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" required></textarea>
-                <div class="g-recaptcha" data-sitekey="6LeMJysrAAAAALUERbYNLU2d0Z3afiWPKH_bJDcb"></div>
-                <button type="submit">Send Message</button>
+                <button class="g-recaptcha"
+                        data-sitekey="6LeMJysrAAAAALUERbYNLU2d0Z3afiWPKH_bJDcb"
+                        data-callback='onSubmit'
+                        data-action='contact_form_submit'>
+                    Submit
+                </button>
             </form>
         </section>
     </main>
@@ -342,49 +347,44 @@
         </div>
     </footer>
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LeMJysrAAAAALUERbYNLU2d0Z3afiWPKH_bJDcb"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        function onSubmit(token) {
+            // This function is called when reCAPTCHA v3 provides a token.
+            // IMPORTANT: You must replace 'YOUR_RECAPTCHA_SITE_KEY' with your actual site key.
             const contactForm = document.getElementById('contact-form');
-            contactForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('6LeMJysrAAAAALUERbYNLU2d0Z3afiWPKH_bJDcb', {action: 'submit'}).then(function(token) {
-                        const nameInput = document.getElementById('name');
-                        const emailInput = document.getElementById('email');
-                        const messageInput = document.getElementById('message');
-                        const formData = {
-                            name: nameInput.value,
-                            email: emailInput.value,
-                            message: messageInput.value,
-                            'g-recaptcha-response': token
-                        };
-                        fetch('process_form.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(formData)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Message sent successfully!');
-                                nameInput.value = '';
-                                emailInput.value = '';
-                                messageInput.value = '';
-                            } else {
-                                alert('Error sending message: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Failed to send message. Please try again.');
-                        });
-                    });
-                });
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            const formData = {
+                name: nameInput.value,
+                email: emailInput.value,
+                message: messageInput.value,
+                'g-recaptcha-response': token // Include the reCAPTCHA token
+            };
+
+            fetch('process_form.php', { // Send data to the server
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Tell the server we're sending JSON
+                },
+                body: JSON.stringify(formData) // Convert data to JSON
+            })
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+                if (data.success) {
+                    alert('Message sent successfully!');
+                    nameInput.value = '';
+                    emailInput.value = '';
+                    messageInput.value = '';
+                } else {
+                    alert('Error sending message: ' + data.message); // Show error from server
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error); // Log network error
+                alert('Failed to send message. Please try again.'); // User feedback
             });
-        });
+        }
     </script>
 </body>
 </html>
