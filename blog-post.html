@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What I Learned From Building My Own Email Server</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #4CAF50;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header .logo {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            padding: 40px 0;
+            min-height: 80vh;
+        }
+        article {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+        article h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        article h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        article p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        article img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+        footer .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        footer .social-links {
+            margin-left: 20px;
+        }
+        footer .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+        footer .social-links a:hover {
+            color: #f1f1f1;
+        }
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            header nav ul li {
+                margin: 10px 0;
+            }
+            footer .container {
+                flex-direction: column;
+            }
+            footer .social-links {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Alex G Soto</a>
+        </div>
+    </header>
+
+    <main>
+        <article class="container">
+            <h1>What I Learned From Building My Own Email Server</h1>
+            <img src="email-server-image.jpg" alt="Email Server Setup">
+            <h2>Introduction</h2>
+            <p>
+                Setting up my own email server was a challenging but incredibly rewarding experience.  It provided deep insights into the complexities of email communication and the protocols that govern it.  This post details the key takeaways from that project.
+            </p>
+
+            <h2>Understanding the Core Components</h2>
+            <p>
+                I gained a much better understanding of the different software components involved in email delivery:
+            </p>
+            <ul>
+                <li><strong>MTA (Mail Transfer Agent):</strong>  Programs like Postfix, which handle the sending and routing of emails between servers.</li>
+                <li><strong>MDA (Mail Delivery Agent):</strong>  Programs like Dovecot, which manage the storage and retrieval of emails by users.</li>
+                <li><strong>DNS Records:</strong>  The critical role of DNS records, especially MX, SPF, DKIM, and DMARC, in ensuring email deliverability and security.</li>
+            </ul>
+
+            <h2>The Importance of DNS Configuration</h2>
+             <p>
+                Configuring DNS records was one of the most crucial aspects of this project.  I learned how each record type impacts email flow:
+            </p>
+           <ul>
+                <li><strong>MX Records:</strong>  Directing incoming mail to the correct server.</li>
+                <li><strong>SPF Records:</strong>  Preventing email spoofing by specifying authorized sending servers.</li>
+                 <li><strong>DKIM Records:</strong>  Authenticating emails with digital signatures to verify their origin and integrity.</li>
+                  <li><strong>DMARC Records:</strong>  Defining policies for how email receivers should handle unauthenticated mail.</li>
+            </ul>
+
+            <h2>Tackling Deliverability Challenges</h2>
+            <p>
+               Email deliverability is a major hurdle for self-hosted email servers.  I encountered issues with emails being marked as spam by major providers.  This led me to learn about:
+             </p>
+            <ul>
+                <li><strong>IP Reputation:</strong>  The importance of having a clean IP address and how blacklists can affect email delivery.</li>
+                <li><strong>Reverse DNS (PTR) Records:</strong>  How PTR records help to verify the identity of the sending server.</li>
+                <li><strong>Email Authentication:</strong>  The necessity of properly configuring SPF, DKIM, and DMARC to improve email trustworthiness.</li>
+                 <li><strong>Warming up IP:</strong> The process of gradually increasing the volume of emails sent from a new IP address to establish a positive reputation.</li>
+            </ul>
+
+            <h2>Security Best Practices</h2>
+            <p>
+                Setting up an email server reinforced the importance of robust security measures:
+            </p>
+            <ul>
+                <li><strong>SSL/TLS Encryption:</strong>  Securing email transmission with encryption to protect sensitive information.</li>
+                <li><strong>Firewall Configuration:</strong>  Restricting network access to only necessary ports to prevent unauthorized access.</li>
+                 <li><strong>Regular Updates:</strong>  Keeping the server and mail server software up-to-date with the latest security patches.</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>
+               Building my own email server was a valuable learning experience. It provided a deeper understanding of email systems, networking, and security.  While challenging, the knowledge and control gained were well worth the effort.
+            </p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Your Name. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/yourlinkedinprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/yourgithubprofile" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
